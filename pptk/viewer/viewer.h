@@ -426,7 +426,12 @@ class Viewer : public QWindow, protected OpenGLFuncs {
         } else if (!strcmp(propertyName.c_str(), "curr_attribute_id")) {
           if (payloadLength != sizeof(unsigned int)) break;
           _points->setCurrentAttributeIndex(*(unsigned int*)&payload[0]);
-        } else {
+        } else if (!strcmp(propertyName.c_str(), "window_size")) {
+          if (payloadLength != sizeof(unsigned int) * 2) break;
+          unsigned int* v = (unsigned int*)&payload[0];
+          resize( v[0], v[1]);
+		}
+        else {
           // unrecognized property name, do nothing
           // todo: consider doing something
         }

@@ -51,7 +51,7 @@ class viewer:
         s.bind(('localhost', 0))
         s.listen(0)
         self._process = subprocess.Popen(
-            [os.path.join(_viewer_dir, 'viewer'), str(s.getsockname()[1])],
+            [os.path.join(_viewer_dir, 'viewer'), str(s.getsockname()[1]),'100','1000'],
             stdout=subprocess.PIPE,
             stderr=(None if debug else subprocess.PIPE))
         if debug:
@@ -605,6 +605,7 @@ def _init_properties():
     _properties['color_map'] = _encode_rgbas
     _properties['color_map_scale'] = _encode_floats
     _properties['curr_attribute_id'] = _encode_uint
+    _properties['window_size'] = _encode_uints
 
 
 def _construct_get_msg(prop_name):

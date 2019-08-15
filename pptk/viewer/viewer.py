@@ -121,6 +121,7 @@ class viewer:
         show_info          bool             Show information text overlay
         show_axis          bool             Show axis / look-at cursor
         theta              float32          Camera elevation angle (radians)
+        window_size        2 x uint         set window size
         =================  ===============  =================================
 
         (phi, theta, r) are spherical coordinates specifying camera position

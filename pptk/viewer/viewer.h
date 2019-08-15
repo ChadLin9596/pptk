@@ -66,8 +66,10 @@ class Viewer : public QWindow, protected OpenGLFuncs {
 
     // initalize various states
     _socket_waiting_on_enter_key = NULL;
+    _socket_waiting_on_screenshot = NULL;
     _timer_fine_render_delay = NULL;
     _fine_render_state = INACTIVE;
+    _render_state = FAST;
     _render_time = std::numeric_limits<double>::infinity();
     _show_text = true;
 
@@ -430,7 +432,7 @@ class Viewer : public QWindow, protected OpenGLFuncs {
           if (payloadLength != sizeof(unsigned int) * 2) break;
           unsigned int* v = (unsigned int*)&payload[0];
           resize( v[0], v[1]);
-		}
+		    }
         else {
           // unrecognized property name, do nothing
           // todo: consider doing something
@@ -513,7 +515,10 @@ class Viewer : public QWindow, protected OpenGLFuncs {
         // receive property name string
         std::string filename(stringLength, 'x');
         comm::receiveBytes((char*)&filename[0], stringLength, clientConnection);
-        printScreen(filename);
+        _socket_waiting_on_screenshot = clientConnection;
+        screenshot(filename);
+        return;
+        //captureCameraAnimation(filename);
         break;
       }
       case 7: {  // wait for enter
@@ -578,7 +583,6 @@ class Viewer : public QWindow, protected OpenGLFuncs {
         _dolly->setRepeat(repeat);
         _dolly->start();
         playCameraAnimation();
-
         break;
       }
       case 10: {  // set per point attributes
@@ -684,6 +688,7 @@ class Viewer : public QWindow, protected OpenGLFuncs {
         _context->doneCurrent();
 #endif
         _fine_render_state = INACTIVE;
+        _render_state = FINE;
         break;
       }
       case TERMINATE: {
@@ -711,6 +716,44 @@ class Viewer : public QWindow, protected OpenGLFuncs {
     QTimer::singleShot(15, this, SLOT(playCameraAnimation()));
   }
 
+  void capture() {
+    if (_render_state == FINE){
+      _context->makeCurrent(this);
+      int w = width() * this->devicePixelRatio();
+      int h = height() * this->devicePixelRatio();
+      GLubyte* pixels = new GLubyte[4 * w * h];
+      glBindBuffer(GL_PIXEL_PACK_BUFFER, 0);
+      glBindFramebuffer(GL_FRAMEBUFFER, 0);
+      //glReadBuffer(GL_FRONT);  // otherwise will read back buffer
+      glReadBuffer(GL_BACK);  // otherwise will read back buffer
+      glReadPixels(0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+      QImage image(w, h, QImage::Format_ARGB32);
+      for (int i = 0; i < h; i++) {
+        for (int j = 0; j < w; j++) {
+          int index = j * 4 + (h - i - 1) * w * 4;
+          QColor color(pixels[index + 0],
+                       pixels[index + 1],
+                       pixels[index + 2],
+                       pixels[index + 3]);
+          image.setPixel(j, i, color.rgba());
+        }
+      }
+      // expect absolute filename path
+      QString qstr_filename = QString::fromStdString(captureFilename);
+      image.save(qstr_filename);
+      delete[] pixels;
+      _context->doneCurrent();
+
+      const char* msg = "c";
+      comm::sendBytes(msg, 1, _socket_waiting_on_screenshot);
+      _socket_waiting_on_screenshot->disconnectFromHost();
+      _socket_waiting_on_screenshot = NULL;
+    }else
+    {
+      QTimer::singleShot(0, this, SLOT(capture()));
+    }
+  }
+
  private:
   void dummyCalculation(int n) {
     _dummy_accumulator /= (float)n;
@@ -718,32 +761,6 @@ class Viewer : public QWindow, protected OpenGLFuncs {
       _dummy_accumulator += sqrtf(pow(6.9f, log((float)i)));
   }
 
-  void printScreen(std::string filename) {
-    _context->makeCurrent(this);
-    int w = width() * this->devicePixelRatio();
-    int h = height() * this->devicePixelRatio();
-    GLubyte* pixels = new GLubyte[4 * w * h];
-    glBindBuffer(GL_PIXEL_PACK_BUFFER, 0);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    glReadBuffer(GL_FRONT);  // otherwise will read back buffer
-    glReadPixels(0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-    QImage image(w, h, QImage::Format_ARGB32);
-    for (int i = 0; i < h; i++) {
-      for (int j = 0; j < w; j++) {
-        int index = j * 4 + (h - i - 1) * w * 4;
-        QColor color(pixels[index + 0],
-                     pixels[index + 1],
-                     pixels[index + 2],
-                     pixels[index + 3]);
-        image.setPixel(j, i, color.rgba());
-      }
-    }
-    // expect absolute filename path
-    QString qstr_filename = QString::fromStdString(filename);
-    image.save(qstr_filename);
-    delete[] pixels;
-    _context->doneCurrent();
-  }
 
   void displayInfo() {
     if (!_show_text) return;
@@ -878,6 +895,12 @@ class Viewer : public QWindow, protected OpenGLFuncs {
     displayInfo();
     if (this->isExposed()) _context->swapBuffers(this);
     _context->doneCurrent();
+    _render_state = FAST;
+  }
+  
+  void screenshot(std::string filename) {
+    captureFilename = filename;
+    QTimer::singleShot(0, this, SLOT(capture()));
   }
 
   QPointF win2ndc(QPointF p) {
@@ -903,14 +926,18 @@ class Viewer : public QWindow, protected OpenGLFuncs {
   float _dummy_accumulator;
   enum FineRenderState { INACTIVE, INITIALIZE, CHUNK, FINALIZE, TERMINATE };
   FineRenderState _fine_render_state;
+  enum RenderState { FAST, FINE };
+  RenderState _render_state;
   QTimer* _timer_fine_render_delay;
   std::size_t _chunk_offset;
   std::size_t _max_chunk_size;
   std::vector<unsigned int> _refined_indices;
 
   QTcpSocket* _socket_waiting_on_enter_key;
+  QTcpSocket* _socket_waiting_on_screenshot;
   double _render_time;
   bool _show_text;
+  std::string captureFilename;
 };
 
 #endif  // __VIEWER_H__

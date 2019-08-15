@@ -296,7 +296,7 @@ class viewer:
 
         """
         msg = struct.pack('b', 6) + _pack_string(os.path.abspath(filename))
-        self.__send(msg)
+        self.__send(msg, True)
 
     def play(self, poses, ts=[], tlim=[-numpy.inf, numpy.inf], repeat=False,
              interp='cubic_natural'):
@@ -441,7 +441,7 @@ class viewer:
         # send message to viewer
         self.__send(msg)
 
-    def __send(self, msg):
+    def __send(self, msg, blocking = False):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect(('localhost', self._portNumber))
         totalSent = 0
@@ -450,6 +450,13 @@ class viewer:
             if sent == 0:
                 raise RuntimeError("socket connection broken")
             totalSent = totalSent + sent
+        if blocking:
+            s.setblocking(1)
+            buf = b''
+            while len(buf) == 0:
+                buf += s.recv(1)
+            if buf != b'c':
+                raise RuntimeError('expecting return code \'c\'')
         s.close()
 
     def __query(self, msg):

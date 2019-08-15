@@ -405,6 +405,10 @@ class Viewer : public QWindow, protected OpenGLFuncs {
           if (payloadLength != sizeof(float)) break;
           float r = *(float*)&payload[0];
           _camera.setCameraDistance(qMax(0.1f, r));
+        } else if (!strcmp(propertyName.c_str(), "vFOV")) {
+          if (payloadLength != sizeof(float)) break;
+          float fov = *(float*)&payload[0];
+          _camera.setVerticalFOV(fov);
         } else if (!strcmp(propertyName.c_str(), "selected")) {
           quint64 num_selected = payloadLength / sizeof(unsigned int);
           if (payloadLength != num_selected * sizeof(unsigned int)) break;

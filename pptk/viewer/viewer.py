@@ -121,6 +121,7 @@ class viewer:
         show_info          bool             Show information text overlay
         show_axis          bool             Show axis / look-at cursor
         theta              float32          Camera elevation angle (radians)
+        vFOV               float32          Camera vertical field of view
         window_size        2 x uint         set window size
         =================  ===============  =================================
 
@@ -609,6 +610,7 @@ def _init_properties():
     _properties['phi'] = _encode_float
     _properties['theta'] = _encode_float
     _properties['r'] = _encode_float
+    _properties['vFOV'] = _encode_float
     _properties['selected'] = _encode_uints
     _properties['color_map'] = _encode_rgbas
     _properties['color_map_scale'] = _encode_floats

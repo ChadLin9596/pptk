@@ -123,7 +123,44 @@ values for the CMake cache variables listed above. (e.g. see CMakeCache.win.txt)
 
 ##### Linux
 
-Similar to building on Windows.
+1. Create a python environment through Anaconda
+```
+>> conda create --name pptk python=3.9 -y
+>> conda activate pptk
+>> conda install conda-forge::qt -y
+>> conda install conda-forge::eigen -y
+>> conda install conda-forge::patchelf -y
+
+>> pip install "numpy<2.0.0"
+>> pip install packaging
+```
+
+2. Download pre-built tbb v2020.3 from github
+```
+>> cd <wherever you like>
+>> wget https://github.com/uxlfoundation/oneTBB/releases/download/v2020.3/tbb-2020.3-lin.tgz
+>> tar -xvzf tbb-2020.3-lin.tgz
+
+```
+
+3. Create an empty build folder
+
+```
+>> mkdir <build_folder>
+```
+
+4. Create an initial CMakeCache.txt under <build_folder> and use it to provide
+values for the CMake cache variables listed above. (e.g. see CMakeCache.linux.txt)
+
+3. Type the following...
+
+```
+>> cd <build_folder>
+>> cmake -G "Unix Makefiles" <source_folder>
+>> make
+>> python setup.py bdist_wheel
+>> pip install dist\<.whl file>
+```
 
 ##### Mac
 

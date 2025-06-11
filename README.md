@@ -44,6 +44,13 @@ or from the .whl file that results from [building pptk from source](#build).
 >> pip install <.whl file>
 ```
 
+or from the .whl file that store under pptk/dist
+
+```
+>> unzip dist/pptk-0.1.1-cp39-none-manylinux_2_35_x86_64.zip
+>> pip install dist/pptk-0.1.1-cp39-none-manylinux_2_35_x86_64.zip
+```
+
 ## Quickstart
 
 In Python, generate 100 random 3-d points.

@@ -1,14 +1,16 @@
 # The following variables are set under a Anaconda3 environment
-Numpy_INCLUDE_DIR:PATH=/home/chad/Workspaces/Sources/Anaconda3/envs/pptk_/lib/python3.9/site-packages/numpy/core/include/numpy
-Eigen_INCLUDE_DIR:PATH=/home/chad/Workspaces/Sources/Anaconda3/envs/pptk_/include/eigen3
-Qt5_DIR:PATH=/home/chad/Workspaces/Sources/Anaconda3/envs/pptk_/lib/cmake/Qt5
-PYTHON_INCLUDE_DIR:PATH=/home/chad/Workspaces/Sources/Anaconda3/envs/pptk_/include/python3.9
-PYTHON_LIBRARY:FILEPATH:=/home/chad/Workspaces/Sources/Anaconda3/envs/pptk_/lib/libpython3.9.so.1.0
-PPTK_PATCHELF:FILEPATH=/home/chad/Workspaces/Sources/Anaconda3/envs/pptk_/bin/patchelf
+Numpy_INCLUDE_DIR:PATH=/home/chad/Workspaces/Projects/Release/pptk_ws/envs/py39.1/lib/python3.9/site-packages/numpy/core/include/numpy
+PYTHON_INCLUDE_DIR:PATH=/home/chad/Workspaces/Projects/Release/pptk_ws/envs/py39.1/include/python3.9
+PYTHON_LIBRARY:FILEPATH:=/home/chad/Workspaces/Projects/Release/pptk_ws/envs/py39.1/lib/libpython3.9.so.1.0
+
+# third party sources
+Qt5_DIR:PATH=/home/chad/Workspaces/Sources/qt/Qt5.6.1/5.6/gcc_64/lib/cmake/Qt5
+Eigen_INCLUDE_DIR:PATH=/home/chad/Workspaces/Sources/eigen/eigen-3.2.9
+PPTK_PATCHELF:FILEPATH=/home/chad/Workspaces/Sources/patchelf/patchelf-0.18.0-x86_64/bin/patchelf
 
 # The following variables are set for the Intel TBB library
-TBB_INCLUDE_DIR:PATH=/home/chad/Workspaces/Sources/tbb/include
-TBB_tbb_LIBRARY:FILEPATH=/home/chad/Workspaces/Sources/tbb/lib/intel64/gcc4.8/libtbb.so.2
-TBB_tbb_RUNTIME:FILEPATH=/home/chad/Workspaces/Sources/tbb/lib/intel64/gcc4.8/libtbb.so.2
-TBB_tbbmalloc_LIBRARY:FILEPATH=/home/chad/Workspaces/Sources/tbb/lib/intel64/gcc4.8/libtbbmalloc.so.2
-TBB_tbbmalloc_RUNTIME:FILEPATH=/home/chad/Workspaces/Sources/tbb/lib/intel64/gcc4.8/libtbbmalloc.so.2
+TBB_INCLUDE_DIR:PATH=/home/chad/Workspaces/Sources/tbb/tbb/include
+TBB_tbb_LIBRARY:FILEPATH=/home/chad/Workspaces/Sources/tbb/tbb/lib/intel64/gcc4.8/libtbb.so.2
+TBB_tbb_RUNTIME:FILEPATH=/home/chad/Workspaces/Sources/tbb/tbb/lib/intel64/gcc4.8/libtbb.so.2
+TBB_tbbmalloc_LIBRARY:FILEPATH=/home/chad/Workspaces/Sources/tbb/tbb/lib/intel64/gcc4.8/libtbbmalloc.so.2
+TBB_tbbmalloc_RUNTIME:FILEPATH=/home/chad/Workspaces/Sources/tbb/tbb/lib/intel64/gcc4.8/libtbbmalloc.so.2

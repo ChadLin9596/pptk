@@ -144,20 +144,41 @@ values for the CMake cache variables listed above. (e.g. see CMakeCache.win.txt)
 ```
 >> conda create --name pptk python=3.9 -y
 >> conda activate pptk
->> conda install conda-forge::qt -y
->> conda install conda-forge::eigen -y
->> conda install conda-forge::patchelf -y
 
 >> pip install "numpy<2.0.0"
 >> pip install packaging
 ```
 
-2. Download pre-built tbb v2020.3 from github
+2. Download
+
+* pre-built tbb v2020.3 from github
 ```
 >> cd <wherever you like>
 >> wget https://github.com/uxlfoundation/oneTBB/releases/download/v2020.3/tbb-2020.3-lin.tgz
 >> tar -xvzf tbb-2020.3-lin.tgz
+```
 
+* QT 5.6.1
+```
+>> cd <wherever you like>
+>> wget https://download.qt.io/new_archive/qt/5.6/5.6.1/qt-opensource-linux-x64-5.6.1.run
+>> chmod +x qt-opensource-linux-x64-5.6.1.run
+>> ./qt-opensource-linux-x64-5.6.1.run
+```
+
+* Eigen 3.2.9
+```
+>> cd <wherever you like>
+>> wget https://gitlab.com/libeigen/eigen/-/archive/3.2.9/eigen-3.2.9.zip
+>> unzip eigen-3.2.9.zip
+```
+
+* patchelf 0.18.0
+```
+>> cd <wherever you like>
+>> mkdir patchelf-0.18.0-x86_64
+>> wget https://github.com/NixOS/patchelf/releases/download/0.18.0/patchelf-0.18.0-x86_64.tar.gz
+>> tar -xvzf patchelf-0.18.0-x86_64.tar.gz -C patchelf-0.18.0-x86_64
 ```
 
 3. Create an empty build folder

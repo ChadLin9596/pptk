@@ -51,6 +51,16 @@ or from the .whl file that store under pptk/dist
 >> pip install dist/pptk-0.1.1-cp39-none-manylinux_2_35_x86_64.zip
 ```
 
+## Issue & Solution
+
+Kernel Crash when `import pptk` in Jupyter-Notebook
+```
+>> cd <env>/lib/python3.9/site-packages/pptk/libs
+>> mv libtbb.so.2 libtbb.so.2.origin
+or
+>> rm libtbb.so.2
+```
+
 ## Quickstart
 
 In Python, generate 100 random 3-d points.

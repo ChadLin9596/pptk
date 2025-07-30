@@ -203,3 +203,11 @@ values for the CMake cache variables listed above. (e.g. see CMakeCache.linux.tx
 ##### Mac
 
 Similar to building on Windows.
+
+## ChangeLog
+
+* v0.1.1
+  * merge [3dsman](https://github.com/3dsman/pptk) pull request
+    * support pptk.viewer.set(window_size=[width, height])
+    * support pptk.viewer.set(vFOV=float)
+    * fix flickerring issue with animation capture

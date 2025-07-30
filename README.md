@@ -202,7 +202,57 @@ values for the CMake cache variables listed above. (e.g. see CMakeCache.linux.tx
 
 ##### Mac
 
-Similar to building on Windows.
+`testing on Apple M2`
+
+1. Create a python environment through Anaconda
+```
+>> CONDA_SUBDIR=osx-64 conda create --name pptk.x86_64 python=3.9 -y
+>> conda activate pptk.x86_64
+
+>> pip install "numpy<2.0.0"
+>> pip install packaging
+```
+
+2. Download & Install
+
+```
+>> brew install qt@5
+>> brew install gcc@11
+>> brew install binutils
+```
+
+* pre-built tbb v2020.3 from github
+```
+>> cd <wherever you like>
+>> wget https://github.com/uxlfoundation/oneTBB/releases/download/v2020.3/tbb-2020.3-mac.tgz
+>> tar -xvzf tbb-2020.3-mac.tgz
+```
+
+* Eigen 3.2.9
+```
+>> cd <wherever you like>
+>> wget https://gitlab.com/libeigen/eigen/-/archive/3.2.9/eigen-3.2.9.zip
+>> unzip eigen-3.2.9.zip
+```
+
+3. Create an empty build folder
+
+```
+>> mkdir <build_folder>
+```
+
+4. Create an initial CMakeCache.txt under <build_folder> and use it to provide
+values for the CMake cache variables listed above. (e.g. see CMakeCache.mac.txt)
+
+3. Type the following...
+
+```
+>> cd <build_folder>
+>> cmake -G "Unix Makefiles" <source_folder>
+>> make
+>> python setup.py bdist_wheel
+>> pip install dist\<.whl file>
+```
 
 ## ChangeLog
 

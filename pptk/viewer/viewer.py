@@ -51,7 +51,7 @@ class viewer:
         s.bind(('localhost', 0))
         s.listen(0)
         self._process = subprocess.Popen(
-            [os.path.join(_viewer_dir, 'viewer'), str(s.getsockname()[1]),'100','1000'],
+            [os.path.join(_viewer_dir, 'viewer'), str(s.getsockname()[1]),'512','512'],
             stdout=subprocess.PIPE,
             stderr=(None if debug else subprocess.PIPE))
         if debug:

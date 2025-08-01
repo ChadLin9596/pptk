@@ -44,11 +44,22 @@ or from the .whl file that results from [building pptk from source](#build).
 >> pip install <.whl file>
 ```
 
-or from the .whl file that store under pptk/dist
+or from the .whl file at release page
 
+* linux
 ```
->> unzip dist/pptk-0.1.1-cp39-none-manylinux_2_35_x86_64.zip
->> pip install dist/pptk-0.1.1-cp39-none-manylinux_2_35_x86_64.zip
+>> wget https://github.com/ChadLin9596/pptk/releases/download/v0.1.1/pptk-0.1.1-cp39-none-manylinux_2_35_x86_64.whl
+>> pip install pptk-0.1.1-cp39-none-manylinux_2_35_x86_64.whl
+>> pip install "numpy<2.0.0"
+
+# (optional: fix a kernel crash while using Jupyter-Notebook)
+rm <env>/lib/python3.9/site-packages/pptk/libs/libtbb.so.2
+```
+
+* mac
+```
+>> wget https://github.com/ChadLin9596/pptk/releases/download/v0.1.1/pptk-0.1.1-cp39-none-macosx_15_0_x86_64.whl
+>> pip intall pptk-0.1.1-cp39-none-macosx_15_0_x86_64.whl
 ```
 
 ## Issue & Solution

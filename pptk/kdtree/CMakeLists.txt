@@ -16,9 +16,14 @@ if (WIN32)
 elseif(APPLE)
   set_target_properties(kdtree PROPERTIES
     LINK_FLAGS "-undefined dynamic_lookup")
+# elseif(UNIX)
+#   set_target_properties(kdtree PROPERTIES
+#     LINK_FLAGS "-static-libstdc++")
 elseif(UNIX)
   set_target_properties(kdtree PROPERTIES
-    LINK_FLAGS "-static-libstdc++")
+    BUILD_WITH_INSTALL_RPATH ON
+    INSTALL_RPATH "$ORIGIN/../libs:$ORIGIN/../../../../../lib:/lib/x86_64-linux-gnu"
+  )
 endif()
 target_compile_definitions(kdtree PRIVATE -DUSE_TBB)
 target_include_directories(kdtree PRIVATE

@@ -175,7 +175,11 @@ class viewer:
         attr = args[1:]
         color_map = kwargs.get('color_map', 'jet')
         scale = kwargs.get('scale', None)
+        keep_viewpoint = kwargs.get('keep_viewpoint', True)
+        vp = {p: self.get(p) for p in ('phi', 'theta', 'r', 'lookat')}
         self.__load(positions)
+        if keep_viewpoint:
+            self.set(**vp)
         self.attributes(*attr)
         self.color_map(color_map, scale)
 

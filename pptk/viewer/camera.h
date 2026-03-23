@@ -114,9 +114,9 @@ class Camera {
   void setRotateRate(float rotateRate) { _rotateRate = rotateRate; }
   void setZoomRate(float zoomRate) { _zoomRate = zoomRate; }
   void setLookAtPosition(const float (&v)[3]) {
-    _lookAt[0] = v[0];
-    _lookAt[1] = v[1];
-    _lookAt[2] = v[2];
+    _lookAt[0] = _saved_lookAt[0] = v[0];
+    _lookAt[1] = _saved_lookAt[1] = v[1];
+    _lookAt[2] = _saved_lookAt[2] = v[2];
   }
   void setPhi(const float phi) { _phi = _saved_phi = phi; }
   void setTheta(const float theta) { _theta = _saved_theta = theta; }

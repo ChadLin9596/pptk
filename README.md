@@ -143,7 +143,7 @@ values for the CMake cache variables listed above. (e.g. see CMakeCache.win.txt)
 >> conda create --name pptk python=3.9 -y
 >> conda activate pptk
 
->> pip install "numpy<2.0.0"
+>> pip install "numpy"
 >> pip install packaging
 ```
 
@@ -207,7 +207,7 @@ values for the CMake cache variables listed above. (e.g. see CMakeCache.linux.tx
 >> CONDA_SUBDIR=osx-64 conda create --name pptk.x86_64 python=3.9 -y
 >> conda activate pptk.x86_64
 
->> pip install "numpy<2.0.0"
+>> pip install "numpy"
 >> pip install packaging
 ```
 
@@ -259,3 +259,9 @@ values for the CMake cache variables listed above. (e.g. see CMakeCache.mac.txt)
     * support pptk.viewer.set(window_size=[width, height])
     * support pptk.viewer.set(vFOV=float)
     * fix flickerring issue with animation capture
+
+* v0.1.2
+  * fix viewpoint being reset after rotating the viewer
+  * add `keep_viewpoint` keyword argument to `viewer.load()` (default `True`) to control whether the current viewpoint is preserved across reloads
+  * support numpy >= 2.0 while remaining compatible with numpy >= 1.15
+

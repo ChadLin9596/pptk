@@ -1,9 +1,9 @@
 PYTHON_INCLUDE_DIR:PATH=/Users/chadlin/Workspaces/Projects/pptk/envs/py39.x86_64/include/python3.9
 PYTHON_LIBRARY:FILEPATH=/Users/chadlin/Workspaces/Projects/pptk/envs/py39.x86_64/lib/libpython3.9.dylib
-Numpy_INCLUDE_DIR:PATH=/Users/chadlin/Workspaces/Projects/pptk/envs/py39.x86_64/lib/python3.9/site-packages/numpy/core/include/numpy
+Numpy_INCLUDE_DIR:PATH=/Users/chadlin/Workspaces/Projects/pptk/envs/py39.x86_64/lib/python3.9/site-packages/numpy/_core/include
 
 Eigen_INCLUDE_DIR:PATH=/Users/chadlin/Sources/Eigen/eigen-3.2.9
-Qt5_DIR:PATH=/usr/local/opt/qt5/lib/cmake/Qt5
+Qt5_DIR:PATH=/usr/local/opt/qt@5/lib/cmake/Qt5
 
 TBB_INCLUDE_DIR:PATH=/Users/chadlin/Sources/TBB/tbb-2020.3-mac/tbb/include
 TBB_tbb_LIBRARY:FILEPATH=/Users/chadlin/Sources/TBB/tbb-2020.3-mac/tbb/lib/libtbb.dylib

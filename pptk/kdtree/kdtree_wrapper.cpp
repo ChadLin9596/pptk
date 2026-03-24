@@ -183,7 +183,7 @@ class QueryTreeAction {
                       "QueryTreeAction::Perform(): "
                       "slice-based query not yet implemented");
       results_ = NULL;
-    } else if (PyArray_Check(obj_queries_) && PyArray_NDIM(obj_queries_) == 2) {
+    } else if (PyArray_Check(obj_queries_) && PyArray_NDIM((PyArrayObject*)obj_queries_) == 2) {
       // query with points
       Array2D x;
       ExtractArray2DFromPyArray(x, obj_queries_);

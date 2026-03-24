@@ -1,7 +1,7 @@
 # The following variables are set under a Anaconda3 environment
-Numpy_INCLUDE_DIR:PATH=/home/chad/Workspaces/Projects/Release/pptk_ws/envs/py39.1/lib/python3.9/site-packages/numpy/core/include/numpy
-PYTHON_INCLUDE_DIR:PATH=/home/chad/Workspaces/Projects/Release/pptk_ws/envs/py39.1/include/python3.9
-PYTHON_LIBRARY:FILEPATH:=/home/chad/Workspaces/Projects/Release/pptk_ws/envs/py39.1/lib/libpython3.9.so.1.0
+Numpy_INCLUDE_DIR:PATH=/home/chad/Workspaces/Projects/Archived/pptk-ws/.envs/py39.build/lib/python3.9/site-packages/numpy/_core/include
+PYTHON_INCLUDE_DIR:PATH=/home/chad/Workspaces/Projects/Archived/pptk-ws/.envs/py39.build/include/python3.9
+PYTHON_LIBRARY:FILEPATH:=/home/chad/Workspaces/Projects/Archived/pptk-ws/.envs/py39.build/lib/libpython3.so
 
 # third party sources
 Qt5_DIR:PATH=/home/chad/Workspaces/Sources/qt/Qt5.6.1/5.6/gcc_64/lib/cmake/Qt5

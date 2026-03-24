@@ -4,7 +4,8 @@
 #include <cstdint>
 #include <vector>
 #include "Python.h"
-#include "arrayobject.h"
+#define NPY_TARGET_VERSION NPY_1_15_API_VERSION
+#include "numpy/arrayobject.h"
 
 struct Array2D {
   const unsigned char* data;
@@ -170,7 +171,7 @@ void ExtractScalarFromArrayScalar(std::vector<std::uint8_t>& scalar,
                  descr->type_num, TypeNameFromTypeNum(descr->type_num).c_str());
   } else {
     type_num = descr->type_num;
-    scalar.resize(descr->elsize);
+    scalar.resize(PyDataType_ELSIZE(descr));
     PyArray_ScalarAsCtype(obj, &scalar[0]);
   }
   Py_DECREF(descr);
@@ -522,7 +523,7 @@ bool VectorFromArray2D(V<T, A>& v, const Array2D& x) {
 template <typename T, typename A>
 void ExtractIndicesFromPyArray(std::vector<T, A>& indices,
                                PyObject* obj, int n) {
-  int dim = PyArray_NDIM(obj);
+  int dim = PyArray_NDIM((PyArrayObject*)obj);
   if (dim > 1)
     PyErr_Format(PyExc_ValueError,
                  "ExtractIndicesFromPyArray(): "

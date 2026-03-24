@@ -1,5 +1,5 @@
 #include "Python.h"
-#include "arrayobject.h"
+#include "numpy/arrayobject.h"
 #define EIGEN_NO_DEBUG  // comment this for runtime assertions
 #include <algorithm>
 #include <functional>

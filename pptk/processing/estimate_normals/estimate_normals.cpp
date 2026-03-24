@@ -5,7 +5,7 @@
 #include <limits>
 #include <vector>
 #include "Python.h"
-#include "arrayobject.h"
+#include "numpy/arrayobject.h"
 #include "kdtree.h"
 #include "progress_bar.h"
 #include "python_util.h"

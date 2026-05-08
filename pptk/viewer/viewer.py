@@ -47,19 +47,35 @@ class viewer:
         debug = kwargs.get('debug', False)
 
         # start up viewer in separate process
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.bind(('localhost', 0))
-        s.listen(0)
-        self._process = subprocess.Popen(
-            [os.path.join(_viewer_dir, 'viewer'), str(s.getsockname()[1]),'512','512'],
-            stdout=subprocess.PIPE,
-            stderr=(None if debug else subprocess.PIPE))
-        if debug:
-            print ('Started viewer process: %s' \
-                % os.path.join(_viewer_dir, 'viewer'))
-        x = s.accept()
-        self._portNumber = struct.unpack('H', self._process.stdout.read(2))[0]
-        # self._portNumber = struct.unpack('H',x[0].recv(2))[0]
+        _host = kwargs.get('host', 'localhost')
+        _portNumber = kwargs.get('port', None)
+        _spawn_viewer = kwargs.get('spawn_viewer', True)
+
+        if _spawn_viewer:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.bind((_host, 0))
+            s.listen(0)
+            self._process = subprocess.Popen(
+                [
+                    os.path.join(_viewer_dir, 'viewer'),
+                    str(s.getsockname()[1]),
+                    '512',
+                    '512',
+                ],
+                stdout=subprocess.PIPE,
+                stderr=(None if debug else subprocess.PIPE))
+            if debug:
+                print ('Started viewer process: %s' \
+                    % os.path.join(_viewer_dir, 'viewer'))
+            x = s.accept()
+            self._host = _host
+            self._portNumber = struct.unpack('H', self._process.stdout.read(2))[0]
+            # self._portNumber = struct.unpack('H',x[0].recv(2))[0]
+
+        else:
+            self._host = _host
+            self._portNumber = _portNumber
+            self._process = None
 
         # upload points to viewer
         self.__load(positions)
@@ -74,6 +90,11 @@ class viewer:
             >>> v.close()
 
         """
+        if self._process is None:
+            msg = 'viewer process not spawned by pptk; unable to close'
+            warnings.warn(msg)
+            return
+
         self._process.kill()
         pass
 
@@ -425,7 +446,7 @@ class viewer:
 
         """
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect(('localhost', self._portNumber))
+        s.connect((self._host, self._portNumber))
         s.send(struct.pack('b', 7))
         s.setblocking(1)
         buf = b''
@@ -448,7 +469,7 @@ class viewer:
 
     def __send(self, msg, blocking = False):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect(('localhost', self._portNumber))
+        s.connect((self._host, self._portNumber))
         totalSent = 0
         while totalSent < len(msg):
             sent = s.send(msg)
@@ -467,7 +488,7 @@ class viewer:
     def __query(self, msg):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # s.setsockopt(socket.SOL_SOCKET,socket.TCP_NODELAY,1)
-        s.connect(('localhost', self._portNumber))
+        s.connect((self._host, self._portNumber))
         totalSent = 0
         while totalSent < len(msg):
             sent = s.send(msg)
